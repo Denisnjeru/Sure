@@ -1,0 +1,46 @@
+.VuePagination {
+    width: 100%;
+
+    nav {
+        width: 100%;
+        @include grid_row;
+        flex-flow: row-reverse;
+        align-items: center;
+    }
+}
+
+.VuePagination__count {
+    font-weight: 500;
+    color: #52575C;
+}
+
+.VuePagination__pagination {
+    margin-bottom: 0;
+
+    .VuePagination__pagination-item {
+        padding: $line-height/8 $line-height/4;
+        border: 1px solid #E8E8E8;
+        border-radius: $line-height/6;
+        margin: 0 $line-height/6;
+    }
+
+    .page-link {
+        color: #25282B;
+        font-size: $font-size-text;
+
+        @media screen and (max-width: 1600px) {
+            line-height: $font-size-title;
+            font-size: $font-size-small;
+        }
+    }
+
+    .active {
+        background: #16AA51;
+        color: $color-white-main;
+    }
+}
+
+.VuePagination__pagination-item-next-chunk, .VuePagination__pagination-item-prev-chunk {
+    display: none;
+}
+

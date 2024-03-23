@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Participation for {{ prequal.category.name }} | {{ prequal.category.job.company.company_name }}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+            @frame footer_left_frame {
+                -pdf-frame-content: footer_content;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                width:auto;
+                height:218px;
+                margin-left:auto;
+                margin-right:auto;
+                background-position:center;
+                background-repeat:no-repeat;
+                overflow:hidden;
+            }
+            @frame content_frame {
+                -pdf-frame-content: content_content;
+                width: auto;
+            }
+            @font-face {
+                font-family: 'Times New Roman';
+            }
+        }
+
+        table tr {
+            border: solid black;
+        }
+        th {
+            text-align: left;
+        }
+        .supplier-name {
+            width: 100vw;
+            background-color: #dddddd;
+            text-align: center;
+            padding: 2px;
+            font-size: 150%;
+            margin: 5px;
+        }
+        .section-name {
+            width: 100vw;
+            background-color: #efefef;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+        }
+        .buyer-logo {
+            height: 50px;
+            float: left;
+        }
+        .eprocure-logo {
+            height: 50px;
+            float: right;
+            margin-left: 100px;
+        }
+        p {
+            font-family: 'Times New Roman';
+            font-size: 14px;
+        }
+
+        div{
+            display: flex;
+            justify-content: center;
+        }
+
+        #footer_content {
+            clear: both;
+        }
+
+        #footer_content img{
+            max-width: 100%;
+            display: block;
+        }
+
+        #header_content img{
+            display: block;
+            max-width: 100%;
+        }
+
+        .row {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          width: 100%;
+          height: 100px;
+        }
+        </style>
+</head>
+<body >
+    {% if dd_letter.header %}
+        <div id="header_content"><p ><img src="{{ dd_letter.header.url }}"  alt="logo"></p></div>
+    {% endif %}
+    <br>
+    <br>
+    <p style="text-align: left; ">{% now 'jS F Y ' %} </p>
+
+    <p >Dear Prospective Supplier,</p>
+
+    <p >To whom it may concern:</p>
+
+    <br>
+    <p ><u><b>NOTIFICATION FOR DUE DILIGENCE -- {% filter upper %}{{ category }}{% endfilter %}</b></u></p>
+    <span style="font-size: 14px !important;font-family: 'Times New Roman' !important;">
+    {{ dd_letter.body | safe}}
+    </span>
+    <br>
+    {% if dd_letter.signature and  dd_letter.authoriser_name and dd_letter.authoriser_role %}
+        <p >For and on behalf of</p>
+        <p ><b>{{client_company_name}}</b></p>
+    {% endif %}
+    <div class="row">
+        {% if dd_letter.signature %}
+        <img style="height: 100px;" src="{{ dd_letter.signature.url }}" alt="signed">
+        {% endif %}
+        {% if dd_letter.watermark %}
+        <img style="height: 200px;margin-right: 100px;" src="{{ dd_letter.watermark.url }}" alt="signed">
+        {% endif %}
+    </div>
+    {% if dd_letter.authoriser_name  != 'None' %}
+        <p ><b>{{dd_letter.authoriser_name}}</b></p>
+    {% endif %}
+    {% if dd_letter.authoriser_role != 'None' %}
+        <p ><u><b>{{dd_letter.authoriser_role}}</b></u></p>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+    <br>
+    {% if dd_letter.footer %}
+        <div id="footer_content"><p ><img style="max-width: 100%" src="{{ dd_letter.footer.url }}"  alt="logo"></p></div>
+    {% endif %}
+</div>
+</body>

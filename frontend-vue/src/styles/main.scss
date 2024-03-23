@@ -1,0 +1,8 @@
+// ITCSS: Scalable and Maintainable CSS Architecture has been used for this project
+// Reference - https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/
+
+@import "./settings";
+@import "./tools";
+@import "./generic/generic";
+@import "./animate";
+@import "./components/components";

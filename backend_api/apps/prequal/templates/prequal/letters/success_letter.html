@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Participation for {{ category.name }} | {{ company.company_name }}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+            @frame footer_left_frame {
+                -pdf-frame-content: footer_content;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                width:auto;
+                height:218px;
+                margin-left:auto;
+                margin-right:auto;
+                background-position:center;
+                background-repeat:no-repeat;
+                overflow:hidden;
+            }
+            @frame content_frame {
+                -pdf-frame-content: content_content;
+                width: auto;
+            }
+            @font-face {
+                font-family: 'Arial, Helvetica, sans-serif';
+                /* font-family: 'EB Garamond', serif; */
+            }
+        }
+
+        table tr {
+            border: solid black;
+        }
+        th {
+            text-align: left;
+        }
+        .supplier-name {
+            width: 100vw;
+            background-color: #dddddd;
+            text-align: center;
+            padding: 2px;
+            font-size: 150%;
+            margin: 5px;
+        }
+        .section-name {
+            width: 100vw;
+            background-color: #efefef;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+        }
+        .buyer-logo {
+            height: 50px;
+            float: left;
+        }
+        .eprocure-logo {
+            height: 50px;
+            float: right;
+            margin-left: 100px;
+        }
+        p {
+            font-family: 'Arial, Helvetica, sans-serif';
+            /* font-family: 'EB Garamond', serif; */
+            font-size: 14px;
+        }
+
+        /* div{
+            display: flex;
+            justify-content: center;
+        } */
+
+        #company_name{
+            font-weight: bold;
+
+        }
+        #postbox_name {
+            font-weight: bold;
+        }
+
+        #footer_content {
+            margin-top: 10px;
+            clear: both;
+            display: block;
+            position:relative;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+
+        #footer_content img{
+            max-width: 100%;
+            display: block;
+            width: 100%;
+
+        }
+        #header_content{
+            margin-bottom: 1px;
+         }
+        #header_content img{
+            /* display: block; */
+            display: inline-block;
+
+            max-width: 100%;
+            /* margin-top:20px; */
+        }
+
+        /* #letter_body{
+            font-family: 'EB Garamond', serif;
+            font-size: 12px;
+        } */
+
+        .row {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+          width: 100%;
+          /* height: 50px; */
+          margin-bottom: 10px;
+        }
+        </style>
+
+</head>
+<body >
+        {% if success_letter.header %}
+        <div id="header_content"><p ><img style="max-width:100%" src="{{ success_letter.header.url }}"  alt="logo"></p></div>
+        {% endif %}
+        <br>
+
+        <p id="company_name">{{ company_name }}</p>
+        {% if supplier.address is not None %}
+        <p id="postbox_name">{{ supplier.address }}</p>
+        {% else %}
+        <p></p>
+        {% endif %}
+
+        <p style="text-align: left; ">{% now 'jS F Y ' %} </p>
+        <br>
+
+        <p>Dear Sir/Madam;</p>
+
+        <p><u><b>NOTIFICATION OF THE PREQUALIFICATION OUTCOME - {% filter upper %}{{ category.name }}{% endfilter %}</b></u></p>
+
+        <span id="letter_body">
+        {{ success_letter.body | safe}}
+        </span>
+        <br>
+
+        <div class="row">
+          {% if success_letter.signature %}
+            <img style="height:100%;" src="{{ success_letter.signature.url }}" alt="signed">
+          {% endif %}
+          {% if success_letter.watermark %}
+            <img style="height: 200px;margin-right: 100px;" src="{{ success_letter.watermark.url }}" alt="signed">
+          {% endif %}
+        </div>
+
+        {% if success_letter.authoriser_name is not None %}
+            <p ><b>{{success_letter.authoriser_name}}</b></p>
+        {% else %}
+        <p><b></b></p>
+        {% endif %}
+
+        {% if success_letter.authoriser_role is not None %}
+            <p><u><b>{{success_letter.authoriser_role}}</b></u></p>
+        {% else %}
+            <p><b></b></p>
+        {% endif %}
+        <br>
+        <br>
+        {% if success_letter.footer %}
+            <div id="footer_content"><p ><img style="max-width: 100%;" src="{{ success_letter.footer.url }}"  alt="logo"></p></div>
+        {% endif %}
+</div>
+</body>

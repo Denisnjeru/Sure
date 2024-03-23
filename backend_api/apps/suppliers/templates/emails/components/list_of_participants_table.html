@@ -1,0 +1,17 @@
+{% load i18n %}
+<table>
+    <thead>
+    <tr>
+        <td style="padding-bottom: 2px;font-weight: 600;">{% trans "COMPANY NAME" %}</td>
+        <!-- <td>COUNTRY</td> -->
+    </tr>
+    </thead>
+    <tbody>
+    {% for participant in participants %}
+        <tr>
+        <td>{{ forloop.counter }}. {{ participant.company_name }}</td>
+        <!-- <td>{% if participant.country != 'None' %}{{ participant.country }}{% endif %}</td> -->
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

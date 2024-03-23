@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load i18n %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>{% trans "Participant List for" %} {{ category.name }} | {{ company.company_name }}</title>
+    <style>
+        table tr {
+            border: solid black;
+        }
+        th {
+            text-align: left;
+        }
+        .supplier-name {
+            width: 100vw;
+            background-color: #dddddd;
+            text-align: center;
+            padding: 2px;
+            font-size: 150%;
+            margin: 5px;
+        }
+        .section-name {
+            width: 100vw;
+            background-color: #efefef;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+        }
+        .buyer-logo {
+            height: 50px;
+            float: left;
+        }
+        .eprocure-logo {
+            height: 50px;
+            float: right;
+        }
+    </style>
+
+</head>
+<body >
+
+
+<table width="100%">
+    <tr style="border: none">
+        <td width="20%">
+            <img class="buyer-logo" src="{% if company.company_logo_url != "" %}media/{{ company.company_logo_url }}{% else %}qed/static/img/no-company-image128-128.png{% endif %}"  alt="[logo]">
+
+        </td>
+        <td width="60%" style="text-align: center;"><span class="report-name">{% trans "LIST OF PARTICIPANTS" %}</span></td>
+        <td width="20%" style="text-align: right">
+            <img src="https://e.tendersure.co.ke/static/img/Tendersure_Logo.png" class="eprocure-logo" alt="" style="right: 10px; max-width: 35%">
+        </td>
+    </tr>
+</table>
+<hr>
+<h3>
+    {{ company.company_name }}
+</h3>
+<h4>
+    {{ category.name }}
+</h4>
+<hr>
+<h5>{% trans "List of Participants" %}</h5>
+<table>
+    <thead>
+    <tr>
+        <td style="padding-bottom: 2px;font-weight: 600;">{% trans "COMPANY NAME" %}</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for participant in participants %}
+        <tr>
+        <td>{{ forloop.counter }}. {{ participant.company_name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

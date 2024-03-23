@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+{% load static %}
+{% load i18n %}
+{% load call_method_2 %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>{% trans 'Participation for' %} {{ prequal.category.name }} | {{ prequal.category.job.company.company_name }}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+            @frame footer_left_frame {
+                -pdf-frame-content: footer_content;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+            @frame footer_right_frame {
+                -pdf-frame-content:page_numbers;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+        }
+
+        table tr {
+            border: solid black;
+        }
+        th {
+            text-align: left;
+        }
+        .supplier-name {
+            width: 100vw;
+            background-color: #dddddd;
+            text-align: center;
+            padding: 2px;
+            font-size: 150%;
+            margin: 5px;
+        }
+        .section-name {
+            width: 100vw;
+            background-color: #efefef;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+        }
+        .buyer-logo {
+            height: 50px;
+            float: left;
+        }
+        .eprocure-logo {
+            height: 50px;
+            float: right;
+            margin-left: 100px;
+        }
+    </style>
+
+</head>
+<body >
+
+<div id="footer_content">
+    {#         todo find date format to fit QED's expectations#}
+        <p style="text-align: left">Date Evaluated : {{ time|date:'l, j F Y' }}</p>
+
+</div>
+
+<div id="page_numbers">
+    <p style="text-align:right;">{% trans 'Page' %} <pdf:pagenumber/>/<pdf:pagecount/>
+    </p>
+</div>
+
+<img class="buyer-logo" src="{% if prequal.category.job.company.company_logo_url != "" %}media/{{ prequal.category.job.company.company_logo_url }}{% else %}qed/static/img/no-company-image128-128.png{% endif %}"  alt="[logo]">
+<img src="qed/static/img/Tendersure_Logo.png" class="eprocure-logo" alt="" style="right: 10px">
+<hr>
+<h3>
+    {{ prequal.category.job.company.company_name }}
+</h3>
+<h4>
+    {% if request.LANGUAGE_CODE == 'en' %}
+     {{ prequal.category.name }} 
+    {% else %}
+     {% if prequal.category.trans_name %} 
+     {{prequal.category.trans_name}}
+     {% else %} 
+     {{prequal.category.name }} 
+    {% endif %}
+    {% endif %}
+
+</h4>
+<hr>
+<h5>{% trans 'Participation Responses' %}</h5>
+<div class="supplier-name">{{ supplier.company_name }}</div>
+{% for section in prequal.sections %}
+    <div class="section-name">
+        {% if request.LANGUAGE_CODE == 'en' %}
+         {{ section.name }} 
+        {% else %}
+        {% if section.trans_name %}
+         {{section.trans_name}}
+        {% else %}
+         {{section.name}}
+        {% endif %}
+        {% endif %}
+    </div>
+    <ol type="1">
+    {% for question in section.questions %}
+        <li>      
+            <b>{% if request.LANGUAGE_CODE == 'en' %}
+                {{ question.description }}
+                {% else %}
+                    {% if question.trans_description %}
+                    {{ question.trans_description }}
+                    {% else %}
+                    {{ question.description }}
+                    {% endif %}
+                {% endif %}
+            </b>       
+        <ul type="circle">
+            <li>{% trans 'Response' %} {% if supplier|question_response:question == '' %} {% trans "No response submitted" %} {% else %} {{ supplier|question_response:question }}{% endif %}</li>
+        </ul>
+        </li>
+
+    {% endfor %}
+    </ol>
+{% endfor %}
+
+<div class="supplier-name">
+{% trans 'End of' %} {{ supplier.company_name }}'s {% trans 'Bid' %}
+</div>
+</body>
+</html>

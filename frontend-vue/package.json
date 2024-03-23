@@ -1,0 +1,103 @@
+{
+  "name": "web-portal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build-report": "vue-cli-service build --report",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@creativebulma/bulma-collapsible": "^1.0.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/vue-fontawesome": "^2.0.6",
+    "@tinymce/tinymce-vue": "^3.2.8",
+    "apexcharts": "^3.35.3",
+    "array-intersection": "^0.1.2",
+    "axios": "^0.24.0",
+    "bulma": "^0.9.3",
+    "bulma-accordion": "^2.0.1",
+    "chart.js": "^2.9.4",
+    "core-js": "^3.6.5",
+    "debounce": "^1.2.1",
+    "jquery": "^3.6.0",
+    "js-cookie": "^3.0.1",
+    "merge": "^2.1.1",
+    "register-service-worker": "^1.7.1",
+    "v-click-outside": "^3.2.0",
+    "vue": "^2.6.11",
+    "vue-apexcharts": "^1.6.2",
+    "vue-awesome-countdown": "^1.1.4",
+    "vue-axios": "^3.4.0",
+    "vue-chartjs": "^3.5.1",
+    "vue-country-region-select": "^2.0.16",
+    "vue-form-wizard": "^0.8.4",
+    "vue-i18n": "^8.26.1",
+    "vue-jwt-decode": "^0.1.0",
+    "vue-loading-overlay": "^5.0.3",
+    "vue-nprogress": "^0.2.0",
+    "vue-pagination-2": "^3.0.91",
+    "vue-pagination-3": "^2.0.0-beta01",
+    "vue-prevent-parent-scroll": "^1.0.5",
+    "vue-router": "^3.2.0",
+    "vue-select": "^3.18.3",
+    "vue-slick-carousel": "^1.0.6",
+    "vue-sweetalert2": "^5.0.2",
+    "vue-tables-2": "^2.3.5",
+    "vue-tables-3": "^2.0.1-beta05",
+    "vue-tabs-component": "^1.5.0",
+    "vue-timeago": "^5.1.3",
+    "vue-upload-multiple-image": "^1.1.6",
+    "vuedraggable": "^2.24.3",
+    "vuex": "^3.4.0",
+    "vuex-persistedstate": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.2",
+    "style-resources-loader": "^1.4.1",
+    "vue-cli-plugin-style-resources-loader": "^0.1.5",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "description": "## Project setup ``` npm install ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/qed-solutions/frontend-vue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/qed-solutions/frontend-vue#readme"
+}

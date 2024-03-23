@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{#{% load staticfiles %}#}
+{% load filters %}
+{% load tender_filters %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Evaluation Report {{ category.name }} | {{ company.company_name }}</title>
+    <style>
+        @page {
+            size: a4 landscape;
+            margin: 1cm;
+            @frame footer_left_frame {
+                -pdf-frame-content: footer_content;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+            @frame footer_right_frame {
+                -pdf-frame-content:page_numbers;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+        }
+
+        tr {
+            border: solid #444444;
+            padding: 3px;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        .supplier-name {
+            width: 100vw;
+            text-decoration: underline solid;
+            text-align: center;
+            vertical-align: center;
+            padding: 2px;
+            font-size: 150%;
+            margin: 5px;
+        }
+
+        .section-name {
+            width: 100vw;
+            text-decoration: underline;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+        }
+
+        .submission-date {
+            width: 100vw;
+            text-decoration: underline;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+            text-align: center;
+            vertical-align: center;
+        }
+
+        .buyer-logo {
+            height: 50px;
+            float: left;
+        }
+
+        .eprocure-logo {
+            height: 50px;
+            float: right;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .pull-right {
+            left: 0;
+        }
+
+        .vertical {
+            writing-mode: tb-rl;
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            white-space: nowrap;
+            display: block;
+            bottom: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .report-name {
+            text-align: right;
+            font-weight: bolder;
+            font-size: 200%;
+        }
+
+        #footer_content {
+            clear: both;
+        }
+
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+    </style>
+
+</head>
+<body>
+
+<div id="footer_content">
+        <p style="text-align: left">Date Evaluated : {{ time|date:'l, j F Y' }}</p>
+
+</div>
+
+<div id="page_numbers">
+    <p style="text-align:right;">Page <pdf:pagenumber/>/<pdf:pagecount/>
+    </p>
+</div>
+
+
+<table width="100%">
+    <tr style="border: none">
+        <td width="20%"><img class="buyer-logo" src="{% if company.company_logo_url != "" %}{{ company.company_logo_url.url }}{% else %}qed/static/img/no-company-image128-128.png{% endif %}"
+                             alt="[logo]"></td>
+        <td width="60%" style="text-align: center;"><span class="report-name">EVALUATION AND RANKING REPORT</span></td>
+        <td width="20%" style="text-align: right"><img class="eprocure-logo"
+                                                       src="qed/static/img/Tendersure_Logo.png"
+                                                       class="eprocure-logo" alt="" style="right: 10px"></td>
+    </tr>
+</table>
+
+
+<hr>
+<h3>
+    {{ company.company_name }}
+</h3>
+<h4>
+    {{ category.name }}
+</h4>
+<hr>
+
+<h5>Technical evaluation summary</h5>
+
+<table>
+    <tr>
+        <td>Date Opened</td>
+        <td class="align-center">{{ category.opening_date|date:'m/d/Y H:i:s' }} </td>
+        <td>Close Date</td>
+        <td class="align-center">{{ category.closing_date|date:'m/d/Y H:i:s' }} </td>
+    </tr>
+    <tr>
+        <td>Date Evaluated</td>
+        <td class="align-center">{{ category.evaluation_date|date:'m/d/Y H:i:s' }} </td>
+        <td>Responsive Bids</td>
+        <td class="align-center">{{ participant_count }} </td>
+    </tr>
+    <tr>
+        <td>Withdrawn bids</td>
+        <td class="align-center">{{ category.withdrawn_bids }} </td>
+        <td>Non Responsive Bids</td>
+        <td class="align-center">{{ category.non_responsive_bids }} </td>
+    </tr>
+    <tr>
+        <td>Worst Rank Bid</td>
+        <td class="align-center">{{ category.worst_score|floatformat:2 }} </td>
+        <td>Best Rank Bid</td>
+        <td class="align-center">{{ category.best_score|floatformat:2 }} </td>
+    </tr>
+    <tr>
+        <td>Average Marks</td>
+        <td class="align-center" colspan="3">{{ category.average_score|floatformat:2 }} </td>
+    </tr>
+</table>
+<br>
+<pdf:nextpage></pdf:nextpage>
+<h5>Bidder Responsiveness</h5>
+<table class="table">
+    <thead>
+    <tr>
+        <th class="align-center">Bidder</th>
+        <th class="align-center">Active Bid</th>
+        <th class="align-center">Responsive</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for supplier in suppliers %}
+        <tr>
+            <td class="text-uppercase">{{ supplier.company_name|upper }}</td>
+            <td class="align-center">Yes</td>
+            <td class="align-center">Yes</td>
+        </tr>
+    {% endfor %}
+
+    {% for s in category.non_responsive_bidders%}
+        <tr>
+            <td class="text-uppercase">{{ s.company_name|upper }}</td>
+            <td class="align-center">Yes</td>
+            <td class="align-center">No</td>
+        </tr>
+    {% endfor %}
+
+    {% for s in category.withdrawn_bidders %}
+        <tr>
+            <td class="text-uppercase">{{ s.company_name|upper }}</td>
+            <td class="align-center">Withdrawn</td>
+            <td class="align-center">Withdrawn</td>
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<br>
+<pdf:nextpage></pdf:nextpage>
+<h5>Bidder Score and Ranking</h5>
+<table class="table">
+    <thead>
+    <tr>
+        <th class="align-center">Bidder</th>
+        <th class="align-center">Total Score</th>
+        <th class="align-center">Rank</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for supplier in suppliers %}
+        <tr>
+            <td>{{ supplier.company_name|upper }}</td>
+            <td class="align-center">{{ supplier|total_tender_score:category.id|floatformat:2 }} </td>
+            <td class="align-center">{{ supplier|technical_score_rank:category.id }} </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<pdf:nextpage></pdf:nextpage>
+
+<h5>Score Per Section</h5>
+<table class="table">
+    <thead>
+    <tr>
+        <th class="align-center ">Bidder</th>
+        <th class="align-center ">Total</th>
+        {% for section in sections %}
+            {% if section.is_scored %}
+                <th class="align-center ">{{ section.short_name }}</th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for supplier in suppliers %}
+        <tr>
+            <td class="">{{ supplier.company_name|upper }}</td>
+            <td class="align-center">{{ supplier|total_tender_score:category.id|floatformat:2 }}</td>
+            {% for section in sections %}
+                {% if section.is_scored and not section.parent_section %}
+                    <td class="align-center">{{ supplier|tender_section_score:section.id|floatformat:2 }}</td>
+                {% endif %}
+            {% endfor %}
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<pdf:nextpage></pdf:nextpage>
+<h1>PRE-QUALIFICATION RESPONSES</h1>
+{% for supplier in suppliers %}
+    <div class="supplier-name">{{ supplier.company_name|upper }} {{ supplier|total_tender_score:category.id|floatformat:2 }}</div>
+    <div class="submission-date"> Date submitted: </div>
+{#    <div class="submission-date"> Date submitted: {{ supplier.id|supplier_response_submission_date:category.id }}</div>#}
+    {% for section in sections %}
+        <div class="section-name">{{ section.name }} - {{ supplier|tender_section_score:section|floatformat:2 }}</div>
+        <ol type="1">
+            {% for question in section.questions %}
+                <li>
+                    <b>{{ question.description }}</b>
+                    <ul type="circle">
+                        <li>Response: {{ supplier|tender_question_response:question.id }}</li>
+                    </ul>
+                </li>
+
+            {% endfor %}
+        </ol>
+
+
+
+    {% endfor %}
+
+    <div class="supplier-name">
+        End Of {{ supplier.company_name }}'s Bid
+    </div>
+    <pdf:nextpage></pdf:nextpage>
+{% endfor %}
+
+</body>
+</html>

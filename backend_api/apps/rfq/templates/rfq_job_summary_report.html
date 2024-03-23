@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load rfqs_custom %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RFQ Summary Report {{ category.name }} </title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+
+            @frame footer_left_frame {
+                -pdf-frame-content: footer_content;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+
+            @frame footer_right_frame {
+                -pdf-frame-content: page_numbers;
+                height: 1cm;
+                bottom: 0;
+                padding-left: 1cm;
+                padding-right: 1cm;
+            }
+        }
+
+        tr {
+            border: solid #444444;
+            padding: 3px;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        .supplier-name {
+            width: 100vw;
+            text-decoration: underline solid;
+            text-align: center;
+            vertical-align: center;
+            padding: 2px;
+            font-size: 150%;
+            margin: 5px;
+        }
+
+        .section-name {
+            width: 100vw;
+            text-decoration: underline;
+            padding: 2px;
+            font-size: 120%;
+            margin: 5px;
+        }
+
+        .buyer-logo {
+            height: 50px;
+            float: left;
+        }
+
+        .eprocure-logo {
+            height: 50px;
+            float: right;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .align-left {
+            text-align: left;
+        }
+
+        .pull-right {
+            left: 0;
+        }
+
+        .vertical {
+            writing-mode: tb-rl;
+            -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+            white-space: nowrap;
+            display: block;
+            bottom: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .report-name {
+            text-align: right;
+            font-weight: bolder;
+            font-size: 200%;
+        }
+
+        #footer_content {
+            clear: both;
+        }
+
+
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="page_numbers">
+        <p style="text-align:right;">Page
+            <pdf:pagenumber />/
+            <pdf:pagecount />
+        </p>
+    </div>
+
+
+    <table width="100%">
+        <tr style="border: none">
+            <td width="20%">
+                <img class="buyer-logo" alt="[logo]">
+            </td>
+            <td width="60%" style="text-align: center;"><span class="report-name">RFQ SUMMARY REPORT</span>
+            </td>
+            <td width="20%" style="text-align: right">
+                <img class="eprocure-logo" src="qed/static/img/Tendersure_Logo.png" class="eprocure-logo" alt=""
+                    style="right: 10px">
+            </td>
+        </tr>
+    </table>
+
+
+    <hr>
+    <h3>
+        {{ buyer.company_name }}
+    </h3>
+    <h4>
+        Title: {{ category.name }}
+    </h4>
+    <h4>
+        Opening Date: {{ category.opening_date|date:'m/d/Y H:i:s' }}
+    </h4>
+    <h4>
+        Closing Date: {{ category.closing_date|date:'m/d/Y H:i:s' }}
+    </h4>
+    <hr>
+
+    <h5>RFQ Summary</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 40%; text-align: left;"> Supplier</th>
+                <th scope="col" style="width: 10%;"> Rank </th>
+                <th scope="col" style="width: 10%;"> No Items</th>
+                <th scope="col" style="width: 10%;"> Outliers</th>
+                <th scope="col" style="width: 10%;"> Zero Bids</th>
+                <th scope="col" style="width: 20%;"> Total Inc VAT ({{category.currency.initials}})</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in participants %}
+            <tr>
+                <td>{{ supplier.company_name }}</td>
+                <td class="align-center">{{ supplier.id|supplier_rfq_rank:category.id }}</td>
+                <td class="align-center">{{ category.items_count }}</td>
+                <td class="align-center">0</td>
+                <td class="align-center">0</td>
+                <td class="align-right">{{ supplier.id|supplier_rfq_total:category.id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    <br>
+    <br>
+
+    <h5>RFQ Supplier Responses</h5>
+    {% for supplier in participants %}
+    <h5>{{ supplier.company_name }}| RFQ Response</h5>
+    <br>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 10%;"> # </th>
+                <th scope="col" style="width: 40%;text-align: left;">Description</th>
+                <th scope="col" style="width: 10%;">Qty</th>
+                <th scope="col" style="width: 20%;">Unit Price Exc. VAT ({{category.currency.initials}})</th>
+                <th scope="col" style="width: 20%;">Total Price Inc. VAT ({{category.currency.initials}})</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in supplier.id|supplier_rfq_responses:category.id %}
+            <tr>
+                <th scope="row">{{res.rfq_item.item_number}}</th>
+                <td>{{res.rfq_item.item_description}}</td>
+                <td class="align-center">{{res.rfq_item.quantity}}</td>
+                <td class="align-right">{{res.unit_price}}</td>
+                <td class="align-right">{{res.total_price}}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+    <br>
+    <table>
+        <tr>
+            <th scope="row" style="width: 50%; border: #fff;"></th>
+            <td style="font-weight:bold;">RFQ Cumulative Total Cost</td>
+            <td class="align-right" style="font-weight:bold ;">{{ supplier.id|supplier_rfq_total:category.id }}</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    {% endfor %}
+    
+</body>
+
+</html>

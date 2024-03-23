@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <style>
+        .receipt {
+            width: 100%;
+            margin: 0;
+        }
+
+        .blue-strip {
+            width: 90%;
+            margin: 0 5%;
+            margin-top: 12px;
+            height: 5px;
+            background-color: #2D4492;
+        }
+
+        .tendersure {
+            width: 90%;
+            padding: 8px 5%;
+            display: flex;
+            flex-flow: row nowrap;
+        }
+
+        .tendersure .logo {
+            width: 80%;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo__img {
+            width: 250px;
+        }
+
+        .tendersure .address {
+            width: 40%;
+            margin-left: 24px;
+            padding: 12px;
+            font-size: 12px;
+            color: #434343;
+        }
+
+        .address__item {
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .receipt-info {
+            width: 90%;
+            margin: 32px 5%;
+            padding-left: 12px;
+        }
+
+        .title {
+            color: #2D4492;
+        }
+
+        .heading {
+            margin-bottom: 8px;
+            color: #434343;
+        }
+
+        .info {
+            margin: 0;
+            margin-bottom: 8px;
+            color: #666666;
+            font-size: 12px;
+        }
+
+        .categories-table {
+            width: 90%;
+            margin: 32px 5%;
+            padding-left: 12px;
+        }
+
+        .table {
+            width: 100%;
+        }
+
+        .description {
+            width: 80%;
+            text-align: left;
+        }
+
+        .table-heading-item {
+            color: #2D4492;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table-row:nth-child(even) {
+            background-color: #f3f3f3;
+        }
+
+        .table-row-item {
+            padding: 8px 4px;
+            font-size: 12px;
+        }
+
+        .price {
+            text-align: right;
+            padding-right: 12px;
+        }
+
+        .table {
+            border-bottom: 1px solid #666666;
+        }
+
+        .total-price {
+            width: 100%;
+            text-align: right;
+            margin: 12px 0;
+            font-weight: 600;
+            font-size: 20px;
+            color: #68ae00;
+        }
+
+        .total-price .total {
+            padding-right: 8px;
+        }
+
+        .transaction-details {
+            width: 90%;
+            margin: 32px 5%;
+            padding-left: 12px;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details-table__heading--item, .details-table__row--item {
+            border: 1px solid #666666;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .details-table__heading--item {
+            color: #2D4492;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .details-table__row--item {
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .thank-you {
+            font-size: 20px;
+            margin: 12px 0;
+            text-align: center;
+            color: #666666;
+        }
+
+    </style>
+</head>
+<body class="receipt">
+    <div class="blue-strip"></div>
+    <div class="tendersure">
+        <div class="logo">
+            <img class="logo__img" src="https://e.tendersure.co.ke/static/img/Tendersure_Logo.png" alt="Tendersure">
+        </div>
+        <div class="address">
+            <p class="address__item">QED Solutions Ltd</p>
+            <p class="address__item">P. O. Box 64960-00620</p>
+            <p class="address__item">Nairobi, Kenya</p>
+        </div>
+    </div>
+    <div class="receipt-info">
+        <h2 class="title">Payment Receipt</h2>
+        <h4 class="heading">Payment Date</h4>
+        <p class="info">{{ date|date:'Y-m-d' }}</p>
+
+        <h4 class="heading">Received From</h4>
+        <p class="info">{{ supplier.company_name }}</p>
+        <p class="info">{{ user.first_name }} {{ user.last_name }}</p>
+        <p class="info">{{ supplier.phone_number }}</p>
+    </div>
+
+    <div class="categories-table">
+        <table class="table">
+            <tr class="table-heading">
+                <th class="table-heading-item description">Description</th>
+                <th class="table-heading-item price">Total price ({{ currency }})</th>
+            </tr>
+            {% for category in categories %}
+              <tr class="table-row">
+                  <td class="table-row-item description">{{ category.name }} ({{category.unique_reference}})</td>
+                  <td class="table-row-item price">{{ category.bid_charge }}</td>
+              </tr>
+            {% endfor %}
+        </table>
+        <p class="total-price"><span class="total">Total: </span> <span>{{ currency }} {{ total }}</span></p>
+    </div>
+
+    <div class="transaction-details">
+        <br>
+        <h4 class="heading">Transaction Details</h4>
+        <br>
+        <table class="details-table">
+            <tr class="details-table__heading">
+                <th class="details-table__heading--item">Transaction Date</th>
+                <th class="details-table__heading--item">Gateway</th>
+                <th class="details-table__heading--item">Transaction ID</th>
+                <th class="details-table__heading--item">Total price</th>
+            </tr>
+            <tr class="details-table__row">
+                <td class="details-table__row--item">{{ date|date:'Y-m-d' }}</td>
+                <td class="details-table__row--item">PESAPAL</td>
+                <td class="details-table__row--item">{{ payment.reference }}</td>
+                <td class="details-table__row--item">{{ currency }} {{ total }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <p class="thank-you">Thank You For Your Business</p>
+
+</body>
+</html>

@@ -1,0 +1,286 @@
+.VuePagination {
+  text-align: center;
+}
+
+.vue-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.vue-pagination-ad {
+  text-align: center;
+}
+
+.glyphicon.glyphicon-eye-open {
+  width: 16px;
+  display: block;
+  margin: 0 auto;
+}
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+th:nth-child(3) {
+  text-align: center;
+}
+
+.VueTables--client {
+  width: 100%;
+
+  .VuePagination {
+    display: none;
+  }
+
+  .VueTables__pagination-wrapper {
+    display: none;
+  }
+
+  .VueTables__limit-field {
+    display: none;
+  }
+}
+
+.VueTables--server {
+  width: 100%;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: scroll;
+  @include scroll-bar();
+}
+
+.VueTables__table {
+  width: 100%;
+
+  thead {
+    background-color: $color-baby-blue;
+
+    th {
+      border: none;
+      padding: 6px 10px;
+      white-space: nowrap;
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      z-index: 80;
+
+      @media screen and (max-width: 1600px) {
+        font-size: $font-size-text;
+      }
+    }
+  }
+
+  tbody {
+    width: 100%;
+    max-height: 50vh;
+    overflow-y: scroll;
+    
+
+    td {
+      padding: 2px 10px !important;
+      font-size: $font-size-tiny;
+      border: none;
+      border-bottom: 0.5px solid #E5E5E5;
+
+      @media screen and (max-width: 1600px) {
+        //padding: $line-height/2 $line-height;
+        padding: 2px 10px !important;
+      }
+
+      &:first-child {
+        margin-left: $line-height/3;
+      }
+
+      &:last-child {
+        margin-right: $line-height/3;
+      }
+      p{
+        line-height: 2.0;
+      }
+    }
+    
+  }
+
+
+  .view {
+    cursor: pointer;
+    color: $color-blue-main;
+
+    &:hover {
+      color: $color-blue-main;
+    }
+  }
+
+  .action {
+    cursor: pointer;
+  }
+
+  .actions {
+    .action {
+      cursor: pointer;
+    }
+
+    &__edit {
+      color: $color-green-main;
+    }
+
+    &__select {
+      color: $color-green-main;
+      cursor: pointer;
+    }
+
+    &__delete {
+      color: $color-red-main;
+    }
+
+    &__icon {
+      margin-right: $line-height/2;
+      cursor: pointer;
+    }
+
+    &__cart-icon {
+      font-size: $font-size-title;
+    }
+
+    &__button {
+      width: auto;
+      color: $color-white-main;
+      background-color: $color-blue-main;
+      border: none;                
+      font-size: $font-size-text;
+    }
+
+    &__icon {
+      font-size: $font-size-small;
+      margin: 0 $line-height/4;
+    }
+  }
+
+  .capitalize {
+    text-transform: capitalize;
+  }
+
+  .link {
+    color: #0859B9;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: $font-size-text;
+  }
+
+  .bold {
+    font-weight: 500;
+    cursor: pointer;
+    font-size: $font-size-text;
+  }
+
+  .centered {
+    margin-left: 22%;
+  }
+
+  .small-centered {
+    margin-left: 15%;
+  }
+
+  .logo {
+    max-width: $line-height*4;
+    max-height: $line-height*2;
+    margin-right: $line-height/3;
+  }
+
+  .table-button {
+    color: $color-white-main;
+    background-color: $color-blue-main;
+    border: none;                
+    font-size: $font-size-text;
+  }
+  .custom-columns {
+       &__small {
+         width: 5%;
+       }
+  
+       &__medium {
+         width: 10%;
+       }
+  
+       &__large {
+         width: 20%;
+       }
+  
+       &__x-large {
+         width: 30%;
+       }
+     }
+}
+
+.hasRowNo {
+  tbody {
+    tr td:nth-child(1) {
+      width: $line-height;
+    }
+  }
+}
+
+.hasArchive {
+  tbody {
+    tr td:nth-child(2) {
+      width: 60%;
+    }
+  }
+}
+
+.hasNoWrap {
+  tbody {
+    td {
+      white-space: nowrap;
+    }
+  }
+}
+
+.hasLogo {
+  @include grid_row;
+  justify-content: flex-start;
+  align-items: center;
+  color: #344767;
+  font-weight: 700;
+  font-size: $font-size-normal;
+}
+
+.VueTables__child-row-toggler {
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.VueTables__child-row-toggler--closed::before {
+  content: "+";
+}
+
+.VueTables__child-row-toggler--open::before {
+  content: "-";
+}
+
+.VueTables__heading {
+  color: rgba(18, 31, 62, 0.8);
+  font-weight: 500;
+}
+
+[v-cloak] {
+  display:none;
+}
+
+.VueTables__search-field {
+  display: none;
+}
+

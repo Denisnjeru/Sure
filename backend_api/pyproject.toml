@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "backend-api"
+version = "0.1.0"
+description = "tendersure2.0 backend api"
+authors = ["Your Name <you@example.com>"]
+license = "BSD"
+readme = "README.md"
+packages = [{include = "backend_api"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+django-filter = "^22.1"
+djangochannelsrestframework = "^1.1.0"
+drf-yasg = "^1.21.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

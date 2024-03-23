@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>QED Solutions</title>
+    <style>
+        .invoice-box{
+            padding: 2px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+            font-size: 11px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+            {#text-align: center;#}
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        td{
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        tr{
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table>
+            <tr class="top">
+                <td>
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="https://e.tendersure.co.ke/static/img/Tendersure_Logo.png" class="pull-right" style="max-width: 35%;">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    Dear Sir or Madam,<br>
+            We are pleased to inform you that your payment has been received
+                </td>
+            </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    Date Of Purchase
+                </td>
+
+                <td>
+                    {{payment.created_at}}
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>
+                    Transaction Id
+                </td>
+
+                <td>
+                   {{payment.reference}}
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr class="heading">
+                <td>
+                    Registered Email
+                </td>
+
+                <td>
+                    {{supplier.email}}
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr class="item">
+                <td>
+                    Mobile Number
+                </td>
+
+                <td>
+                    {{supplier.phone_number}}
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr class="heading">
+                <td>
+                    Amount Paid
+                </td>
+
+                <td>
+                    {{payment.amount}}
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr class="item last">
+                <td>
+                    Status
+                </td>
+
+                <td>
+                    {{payment.status}}
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr class="total">
+                <td>
+                    Total:
+                </td>
+
+                <td>
+                   {{ currency }} {{ total }}
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
